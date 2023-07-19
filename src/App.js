@@ -1,23 +1,24 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Form from './Form';
+import Table from './Table';
 
 function App() {
+
+  // eslint-disable-next-line
+  const [btnSave, setBtnSave] = useState(true);
+  const [transferencias, setTransferencias] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/transferencias")
+    .then(response => response.json())
+    .then(converted_response => setTransferencias(converted_response));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Form button={btnSave} />
+      <Table arr={transferencias} />
     </div>
   );
 }
